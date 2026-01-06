@@ -1,0 +1,2 @@
+# nội dung ngày 06/01
+cài C# , SQL server
