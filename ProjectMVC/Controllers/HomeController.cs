@@ -1,24 +1,12 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using ProjectMVC.Models;
 
-namespace ProjectMVC.Controllers;
-
-public class HomeController : Controller
+namespace ProjectMVC.Controllers
 {
-    public IActionResult Index()
+    public class DemoController : Controller
     {
-        return View();
-    }
-
-    public IActionResult Privacy()
-    {
-        return View();
-    }
-
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        public IActionResult Index()
+        {
+            return View();
+        }
     }
 }
