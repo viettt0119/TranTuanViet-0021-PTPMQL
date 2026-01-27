@@ -23,26 +23,52 @@ Routing là cơ chế ánh ánh các URL từ trình duyệt đến các hành �
 * **View**: Sử dụng cú pháp **Razor** (kết hợp HTML và C#). View thường nằm trong thư mục `Views/[TênController]/[TênAction].cshtml`.
 * **Truyền dữ liệu**: Controller có thể truyền dữ liệu sang View thông qua `ViewBag`, `ViewData`, `TempData` hoặc sử dụng `Strongly Typed Model`.
 
-## 1) ViewBag trong MVC là gì?
-Khái niệm
+# Bài Thực Hành Số 4: ViewBag, Models và Form Handling trong ASP.NET Core MVC
 
-* ** ViewBag là một “túi” dữ liệu động (dynamic) để truyền dữ liệu từ Controller sang View.
+Dự án này là bài thực hành tìm hiểu về cách truyền nhận dữ liệu giữa Controller và View, làm việc với Model và cấu hình giao diện Layout.
 
-Nó chỉ sống trong một request (tức là khi trả về View).
+## 1. Nội dung thực hành
 
-Bên trong thực chất là wrapper của ViewData.
+### Phần 1: ViewBag và Gửi dữ liệu cơ bản
+* **Mục tiêu:** Hiểu cách gửi dữ liệu từ View lên Controller và ngược lại.
+* **Chức năng:**
+    * Người dùng nhập "Họ tên" từ View.
+    * Controller nhận dữ liệu qua tham số hàm.
+    * Controller xử lý chuỗi "Xin chào + [Họ tên]" và gửi lại View bằng `ViewBag`.
 
-Khi nào dùng?
+### Phần 2: Làm việc với Model (Student)
+* **Mục tiêu:** Sử dụng Class để đóng gói dữ liệu.
+* **Model:** `Student`
+    * `StudentCode`: Mã sinh viên.
+    * `FullName`: Họ và tên.
+* **Chức năng:**
+    * Tạo Form nhập liệu có liên kết (binding) với Model `Student`.
+    * Controller nhận cả đối tượng `Student` từ Form gửi lên.
 
-Dùng nhanh cho dữ liệu đơn giản: tiêu đề trang, thông báo, danh sách nhỏ…
+### Phần 3: Cấu hình Layout
+* **Mục tiêu:** Tạo điều hướng (Navigation) thuận tiện.
+* **Thực hiện:**
+    * Sửa file `_Layout.cshtml`.
+    * Thêm menu dẫn tới chức năng quản lý sinh viên (`StudentController`).
 
-Không phù hợp cho dữ liệu phức tạp/quan trọng → nên dùng Model (strongly typed).
+## 2. Hướng dẫn cài đặt và chạy
 
-* ** So sánh nhanh
+1.  Clone dự án về máy:
+    ```bash
+    git clone <đường-dẫn-repo-của-bạn>
+    ```
+2.  Mở dự án bằng Visual Studio hoặc VS Code.
+3.  Chạy ứng dụng (F5 hoặc `dotnet run`).
+4.  Truy cập chức năng tại menu hoặc đường dẫn:
+    * `https://localhost:<port>/Student/Create`
 
-ViewBag.Title = "..." (dynamic, không cần ép kiểu)
+## 3. Cấu trúc Code chính
 
-ViewData["Title"] = "..." (dictionary, cần ép kiểu khi lấy)
-
-TempData["..."] (sống qua 1 lần redirect, hay dùng khi POST-Redirect-GET)
+**Student Model:**
+```csharp
+public class Student
+{
+    public string StudentCode { get; set; }
+    public string FullName { get; set; }
+}
 
