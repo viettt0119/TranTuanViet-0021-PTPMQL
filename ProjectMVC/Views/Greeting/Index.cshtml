@@ -1,0 +1,19 @@
+@{
+    ViewBag.Title = "Greeting";
+}
+
+<h2>Nhập họ tên</h2>
+
+@using (Html.BeginForm("Index", "Greeting", FormMethod.Post))
+{
+    <div>
+        <label>Họ tên:</label>
+        <input type="text" name="fullName" value="@(ViewBag.FullName ?? "")" />
+        <button type="submit">Gửi</button>
+    </div>
+}
+
+@if (ViewBag.Alert != null)
+{
+    <p style="margin-top:10px;"><b>@ViewBag.Alert</b></p>
+}

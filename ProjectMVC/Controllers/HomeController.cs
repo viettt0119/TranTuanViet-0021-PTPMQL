@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
-
-namespace ProjectMVC.Controllers
+using System;
+public class HomeController : Controller
 {
-    public class DemoController : Controller
+    public ActionResult About()
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+        ViewBag.TitlePage = "Giới thiệu";
+        ViewBag.Message = "Đây là dữ liệu gửi từ Controller sang View qua ViewBag.";
+        ViewBag.Year = DateTime.Now.Year;
+        return View();
     }
 }

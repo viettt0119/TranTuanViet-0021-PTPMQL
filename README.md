@@ -23,3 +23,26 @@ Routing là cơ chế ánh ánh các URL từ trình duyệt đến các hành �
 * **View**: Sử dụng cú pháp **Razor** (kết hợp HTML và C#). View thường nằm trong thư mục `Views/[TênController]/[TênAction].cshtml`.
 * **Truyền dữ liệu**: Controller có thể truyền dữ liệu sang View thông qua `ViewBag`, `ViewData`, `TempData` hoặc sử dụng `Strongly Typed Model`.
 
+## 1) ViewBag trong MVC là gì?
+Khái niệm
+
+* ** ViewBag là một “túi” dữ liệu động (dynamic) để truyền dữ liệu từ Controller sang View.
+
+Nó chỉ sống trong một request (tức là khi trả về View).
+
+Bên trong thực chất là wrapper của ViewData.
+
+Khi nào dùng?
+
+Dùng nhanh cho dữ liệu đơn giản: tiêu đề trang, thông báo, danh sách nhỏ…
+
+Không phù hợp cho dữ liệu phức tạp/quan trọng → nên dùng Model (strongly typed).
+
+* ** So sánh nhanh
+
+ViewBag.Title = "..." (dynamic, không cần ép kiểu)
+
+ViewData["Title"] = "..." (dictionary, cần ép kiểu khi lấy)
+
+TempData["..."] (sống qua 1 lần redirect, hay dùng khi POST-Redirect-GET)
+

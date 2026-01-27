@@ -1,0 +1,27 @@
+@model ProjectMVC.Models.Student
+
+@{
+    ViewBag.Title = "Create Student";
+}
+
+<h2>Tạo sinh viên</h2>
+
+@using (Html.BeginForm("Create", "Student", FormMethod.Post))
+{
+    <div style="margin-bottom:8px;">
+        <label>Mã SV:</label>
+        @Html.TextBoxFor(m => m.StudentCode)
+    </div>
+
+    <div style="margin-bottom:8px;">
+        <label>Họ tên:</label>
+        @Html.TextBoxFor(m => m.FullName)
+    </div>
+
+    <button type="submit">Gửi</button>
+}
+
+@if (ViewBag.Alert != null)
+{
+    <p style="margin-top:10px;"><b>@ViewBag.Alert</b></p>
+}
