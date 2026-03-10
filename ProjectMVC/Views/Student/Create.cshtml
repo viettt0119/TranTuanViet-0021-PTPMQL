@@ -1,27 +1,36 @@
-@model ProjectMVC.Models.Student
+@model ProjectMVC.Models.Entities.Student
 
 @{
-    ViewBag.Title = "Create Student";
+    ViewData["Title"] = "Them sinh vien";
 }
 
-<h2>Tạo sinh viên</h2>
+<h2>Them moi sinh vien</h2>
 
-@using (Html.BeginForm("Create", "Student", FormMethod.Post))
-{
-    <div style="margin-bottom:8px;">
-        <label>Mã SV:</label>
-        @Html.TextBoxFor(m => m.StudentCode)
+<form asp-action="Create" method="post" class="mt-3">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="StudentCode" class="form-label"></label>
+        <input asp-for="StudentCode" class="form-control" />
+        <span asp-validation-for="StudentCode" class="text-danger"></span>
     </div>
 
-    <div style="margin-bottom:8px;">
-        <label>Họ tên:</label>
-        @Html.TextBoxFor(m => m.FullName)
+    <div class="mb-3">
+        <label asp-for="FullName" class="form-label"></label>
+        <input asp-for="FullName" class="form-control" />
+        <span asp-validation-for="FullName" class="text-danger"></span>
     </div>
 
-    <button type="submit">Gửi</button>
-}
+    <div class="mb-3">
+        <label asp-for="Age" class="form-label"></label>
+        <input asp-for="Age" class="form-control" />
+        <span asp-validation-for="Age" class="text-danger"></span>
+    </div>
 
-@if (ViewBag.Alert != null)
-{
-    <p style="margin-top:10px;"><b>@ViewBag.Alert</b></p>
+    <button type="submit" class="btn btn-primary">Luu</button>
+    <a asp-action="Index" class="btn btn-secondary">Quay lai</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }
