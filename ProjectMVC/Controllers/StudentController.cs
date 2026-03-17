@@ -17,7 +17,8 @@ namespace ProjectMVC.Controllers
             {
                 query = query.Where(student =>
                     student.StudentCode.Contains(keyword) ||
-                    student.FullName.Contains(keyword));
+                    student.FullName.Contains(keyword) ||
+                    student.Email.Contains(keyword));
             }
 
             ViewBag.Keyword = keyword;

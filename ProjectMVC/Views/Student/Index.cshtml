@@ -13,7 +13,7 @@
 <form asp-action="Index" method="get" class="row g-2 mb-3">
     <div class="col-md-6">
         <input type="text" name="keyword" value="@keyword" class="form-control"
-               placeholder="Tim theo ma sinh vien hoac ho ten" />
+               placeholder="Tim theo ma sinh vien, ho ten hoac email" />
     </div>
     <div class="col-auto">
         <button type="submit" class="btn btn-outline-primary">Tim kiem</button>
@@ -26,6 +26,7 @@
         <tr>
             <th>Ma sinh vien</th>
             <th>Ho ten</th>
+            <th>Email</th>
             <th>Tuoi</th>
             <th style="width: 180px;">Thao tac</th>
         </tr>
@@ -38,6 +39,7 @@
                 <tr>
                     <td>@student.StudentCode</td>
                     <td>@student.FullName</td>
+                    <td>@student.Email</td>
                     <td>@(student.Age?.ToString() ?? "-")</td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@student.StudentCode" class="btn btn-sm btn-warning">Sua</a>
@@ -49,7 +51,7 @@
         else
         {
             <tr>
-                <td colspan="4" class="text-center">Khong co du lieu phu hop.</td>
+                <td colspan="5" class="text-center">Khong co du lieu phu hop.</td>
             </tr>
         }
     </tbody>
