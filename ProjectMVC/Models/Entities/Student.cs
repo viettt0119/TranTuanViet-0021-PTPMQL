@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectMVC.Models.Entities
 {
@@ -20,6 +21,13 @@ namespace ProjectMVC.Models.Entities
         [EmailAddress(ErrorMessage = "Email khong dung dinh dang.")]
         [Display(Name = "Email")]
         public string Email { get; set; } = string.Empty;
+
+        [Display(Name = "Khoa")]
+        [Range(1, int.MaxValue, ErrorMessage = "Vui long chon khoa.")]
+        public int FacultyID { get; set; }
+
+        [ForeignKey(nameof(FacultyID))]
+        public Faculty? Faculty { get; set; }
 
         [Display(Name = "Tuoi")]
         [Range(16, 100, ErrorMessage = "Tuoi phai nam trong khoang 16 den 100.")]

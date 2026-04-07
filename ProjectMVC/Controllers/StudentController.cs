@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ProjectMVC.Data;
 using ProjectMVC.Models.Entities;
+using ProjectMVC.Models.ViewModels;
 
 namespace ProjectMVC.Controllers
 {
@@ -11,26 +13,36 @@ namespace ProjectMVC.Controllers
 
         public async Task<IActionResult> Index(string? keyword)
         {
-            var query = _context.Students.AsQueryable();
+            var query = _context.Students
+                .Include(student => student.Faculty)
+                .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(keyword))
             {
                 query = query.Where(student =>
                     student.StudentCode.Contains(keyword) ||
                     student.FullName.Contains(keyword) ||
-                    student.Email.Contains(keyword));
+                    student.Email.Contains(keyword) ||
+                    student.Faculty!.FacultyName.Contains(keyword));
             }
 
             ViewBag.Keyword = keyword;
             var listStudents = await query
                 .OrderBy(student => student.StudentCode)
+                .Select(student => new StudentFacultyViewModel
+                {
+                    StudentCode = student.StudentCode,
+                    FullName = student.FullName,
+                    FacultyName = student.Faculty!.FacultyName
+                })
                 .ToListAsync();
 
             return View(listStudents);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            await LoadFacultiesAsync();
             return View();
         }
 
@@ -40,6 +52,15 @@ namespace ProjectMVC.Controllers
         {
             if (!ModelState.IsValid)
             {
+                await LoadFacultiesAsync(std.FacultyID);
+                return View(std);
+            }
+
+            var facultyExists = await _context.Faculties.AnyAsync(faculty => faculty.FacultyID == std.FacultyID);
+            if (!facultyExists)
+            {
+                ModelState.AddModelError(nameof(Student.FacultyID), "Khoa khong ton tai.");
+                await LoadFacultiesAsync(std.FacultyID);
                 return View(std);
             }
 
@@ -47,6 +68,7 @@ namespace ProjectMVC.Controllers
             if (studentExists)
             {
                 ModelState.AddModelError(nameof(Student.StudentCode), "Ma sinh vien da ton tai.");
+                await LoadFacultiesAsync(std.FacultyID);
                 return View(std);
             }
 
@@ -68,6 +90,7 @@ namespace ProjectMVC.Controllers
                 return NotFound();
             }
 
+            await LoadFacultiesAsync(std.FacultyID);
             return View(std);
         }
 
@@ -82,6 +105,15 @@ namespace ProjectMVC.Controllers
 
             if (!ModelState.IsValid)
             {
+                await LoadFacultiesAsync(std.FacultyID);
+                return View(std);
+            }
+
+            var facultyExists = await _context.Faculties.AnyAsync(faculty => faculty.FacultyID == std.FacultyID);
+            if (!facultyExists)
+            {
+                ModelState.AddModelError(nameof(Student.FacultyID), "Khoa khong ton tai.");
+                await LoadFacultiesAsync(std.FacultyID);
                 return View(std);
             }
 
@@ -103,7 +135,10 @@ namespace ProjectMVC.Controllers
                 return NotFound();
             }
 
-            var std = await _context.Students.AsNoTracking().FirstOrDefaultAsync(student => student.StudentCode == id);
+            var std = await _context.Students
+                .Include(student => student.Faculty)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(student => student.StudentCode == id);
             if (std == null)
             {
                 return NotFound();
@@ -125,6 +160,15 @@ namespace ProjectMVC.Controllers
             _context.Students.Remove(std);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        private async Task LoadFacultiesAsync(int selectedFacultyId = 0)
+        {
+            var faculties = await _context.Faculties
+                .OrderBy(faculty => faculty.FacultyName)
+                .ToListAsync();
+
+            ViewBag.Faculties = new SelectList(faculties, nameof(Faculty.FacultyID), nameof(Faculty.FacultyName), selectedFacultyId);
         }
     }
 }

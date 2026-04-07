@@ -28,6 +28,14 @@
     </div>
 
     <div class="mb-3">
+        <label asp-for="FacultyID" class="form-label"></label>
+        <select asp-for="FacultyID" asp-items="ViewBag.Faculties" class="form-select">
+            <option value="">-- Chon khoa --</option>
+        </select>
+        <span asp-validation-for="FacultyID" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
         <label asp-for="Age" class="form-label"></label>
         <input asp-for="Age" class="form-control" />
         <span asp-validation-for="Age" class="text-danger"></span>

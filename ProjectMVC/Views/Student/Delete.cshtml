@@ -20,6 +20,9 @@
     <dt class="col-sm-3">Email</dt>
     <dd class="col-sm-9">@Model.Email</dd>
 
+    <dt class="col-sm-3">Khoa</dt>
+    <dd class="col-sm-9">@Model.Faculty?.FacultyName</dd>
+
     <dt class="col-sm-3">Tuoi</dt>
     <dd class="col-sm-9">@(Model.Age?.ToString() ?? "-")</dd>
 </dl>
